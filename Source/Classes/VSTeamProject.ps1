@@ -10,6 +10,7 @@ class VSTeamProject : VSTeamDirectory {
    [string]$State = $null
    [string]$Visibility = $null
    [string]$Description = $null
+   [object]$Capabilities = $null
 
    VSTeamProject (
       [object]$obj
@@ -23,6 +24,10 @@ class VSTeamProject : VSTeamDirectory {
       # The description is not always returned so protect yourself.
       if ($obj.PSObject.Properties.Match('description').count -gt 0) {
          $this.Description = $obj.description
+      }
+      
+      if (Get-Member -inputobject $obj -name "capabilities" -MemberType Properties) {
+         $this.Capabilities = $obj.capabilities
       }
 
       $this._internalObj = $obj
